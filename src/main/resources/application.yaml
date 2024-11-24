@@ -9,6 +9,7 @@ spring:
       schema: stock
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+    show-sql: true
 server:
   port: 8082

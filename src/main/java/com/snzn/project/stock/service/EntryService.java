@@ -9,7 +9,6 @@ import com.snzn.project.stock.repository.EntryRepository;
 import com.snzn.project.stock.repository.entity.Entry;
 import com.snzn.project.stock.service.exception.DuplicateRecordException;
 import com.snzn.project.stock.service.exception.RecordNotFoundException;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -26,6 +24,7 @@ import static java.util.Objects.isNull;
 public class EntryService {
 
     private final EntryRepository repository;
+    private final QuantityService quantityService;
 
     public void create(EntryCreateRequest request) {
         Optional<Entry> optEntry = repository.findByCategoryAndDefinitionAndBrandAndModelAndDeletedFalse(
@@ -95,9 +94,10 @@ public class EntryService {
 
         List<EntryResponseModel> entryModelList = new ArrayList<>();
         for (Entry entry : entryList) {
+            Integer quantity = quantityService.getNetQuantity(entry);
             EntryResponseModel entryResponseModel = new EntryResponseModel(
                     entry.getId(),
-                    0, // TODO get from quantity
+                    quantity,
                     entry.getCategory(),
                     entry.getDefinition(),
                     entry.getBrand(),

@@ -16,13 +16,17 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Quantity extends BaseEntity {
 
-    @Column(nullable = false)
-    private Integer quantity;
-
-    private QuantityDirection direction;
-
     @ManyToOne
     @JoinColumn
     private Entry entry;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @Column(nullable = false)
+    private QuantityDirection direction;
+
+    @Column(nullable = false)
+    private QuantityStatus status;
 
 }

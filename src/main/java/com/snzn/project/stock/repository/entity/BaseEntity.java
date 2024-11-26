@@ -25,6 +25,8 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Boolean deleted = false;
+
     @Version
     @Column(nullable = false)
     private Integer version;
@@ -36,5 +38,9 @@ public abstract class BaseEntity {
     @UpdateTimestamp
     @Column(insertable = false)
     private LocalDateTime updatedAt;
+
+    public void softDelete() {
+        this.deleted = true;
+    }
 
 }

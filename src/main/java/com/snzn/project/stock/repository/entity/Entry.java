@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"category", "definition", "brand", "model", "concatenatedPropertyList"}))
 @Entity
 public class Entry extends BaseEntity {
 

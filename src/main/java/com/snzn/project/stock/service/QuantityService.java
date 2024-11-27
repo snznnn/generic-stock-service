@@ -8,8 +8,11 @@ import com.snzn.project.stock.repository.entity.Quantity;
 import com.snzn.project.stock.repository.entity.QuantityDirection;
 import com.snzn.project.stock.repository.entity.QuantityStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,7 +25,7 @@ public class QuantityService {
     public void add(QuantityChangeRequest request) {
         Entry entryReference = entryRepository.getReferenceById(request.getEntryId());
 
-        Quantity quantity = new Quantity(
+        var quantity = new Quantity(
                 entryReference,
                 request.getQuantity(),
                 QuantityDirection.UP,
@@ -35,7 +38,7 @@ public class QuantityService {
     public void remove(QuantityChangeRequest request) {
         Entry entryReference = entryRepository.getReferenceById(request.getEntryId());
 
-        Quantity quantity = new Quantity(
+        var quantity = new Quantity(
                 entryReference,
                 request.getQuantity(),
                 QuantityDirection.DOWN,
@@ -60,6 +63,19 @@ public class QuantityService {
         }
 
         return netQuantity;
+    }
+
+    @Scheduled(fixedRate = 60000)
+    private void cancelExpiredOrders() {
+        List<Quantity> inProgressQuantityList = quantityRepository.findByStatusAndDeletedFalse(QuantityStatus.IN_PROGRESS);
+        List<Quantity> expiredQuantityList = new ArrayList<>();
+        for (Quantity quantity : inProgressQuantityList) {
+            if (quantity.getCreatedAt().plusMinutes(5).isBefore(LocalDateTime.now())) {
+                quantity.setStatus(QuantityStatus.CANCELED);
+                expiredQuantityList.add(quantity);
+            }
+        }
+        quantityRepository.saveAll(expiredQuantityList);
     }
 
 }

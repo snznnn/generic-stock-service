@@ -19,6 +19,10 @@ public interface QuantityRepository extends JpaRepository<Quantity, Long> {
     @Transactional
     @Modifying
     @Query("update Quantity q set q.status = :newStatus where q.orderNo = :orderNo and q.status = :currentStatus")
-    void updateStatusByOrderNoAndStatus(QuantityStatus newStatus, String orderNo, QuantityStatus currentStatus);
+    int updateStatusByOrderNoAndStatus(QuantityStatus newStatus, String orderNo, QuantityStatus currentStatus);
+
+    List<Quantity> findByOrderNoAndDeletedFalse(String orderNo);
+
+    List<Quantity> findByStatusAndDeletedFalse(QuantityStatus quantityStatus);
 
 }

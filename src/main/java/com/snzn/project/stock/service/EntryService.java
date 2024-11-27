@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @RequiredArgsConstructor
 @Service
@@ -37,12 +38,13 @@ public class EntryService {
             throw new DuplicateRecordException();
         }
 
-        Entry entry = new Entry(
+        var entry = new Entry(
                 request.getCategory(),
                 request.getDefinition(),
                 request.getBrand(),
                 request.getModel(),
-                concatenatePropertyList(request.getPropertyList())
+                concatenatePropertyList(request.getPropertyList()),
+                request.getPrice()
         );
         repository.save(entry);
     }
@@ -53,7 +55,12 @@ public class EntryService {
             throw new RecordNotFoundException();
         } else {
             Entry entry = optEntry.get();
-            entry.setConcatenatedPropertyList(concatenatePropertyList(request.getPropertyList()));
+            if (nonNull(request.getPropertyList()) && !request.getPropertyList().isEmpty()) {
+                entry.setConcatenatedPropertyList(concatenatePropertyList(request.getPropertyList()));
+            }
+            if (nonNull(request.getPrice())) {
+                entry.setPrice(request.getPrice());
+            }
             repository.save(entry);
         }
     }
@@ -102,7 +109,8 @@ public class EntryService {
                     entry.getDefinition(),
                     entry.getBrand(),
                     entry.getModel(),
-                    entry.getConcatenatedPropertyList()
+                    entry.getConcatenatedPropertyList(),
+                    entry.getPrice()
             );
             entryModelList.add(entryResponseModel);
         }

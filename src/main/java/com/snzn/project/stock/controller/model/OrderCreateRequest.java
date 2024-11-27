@@ -21,6 +21,6 @@ public class OrderCreateRequest {
 
     @Valid
     @NotEmpty
-    private List<OrderEntryQuantityModel> entryList;
+    private List<OrderEntryQuantityModel> entryQuantityList;
 
 }

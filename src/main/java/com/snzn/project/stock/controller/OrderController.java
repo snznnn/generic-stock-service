@@ -1,6 +1,7 @@
 package com.snzn.project.stock.controller;
 
 import com.snzn.project.stock.controller.model.OrderCreateRequest;
+import com.snzn.project.stock.controller.model.OrderCreateResponse;
 import com.snzn.project.stock.controller.model.OrderUpdateRequest;
 import com.snzn.project.stock.service.OrderService;
 import jakarta.validation.Valid;
@@ -21,9 +22,8 @@ public class OrderController {
     private final OrderService service;
 
     @PostMapping("/create")
-    public ResponseEntity<Void> create(@RequestBody @Valid OrderCreateRequest request) {
-        service.create(request);
-        return new ResponseEntity<>(CREATED);
+    public ResponseEntity<OrderCreateResponse> create(@RequestBody @Valid OrderCreateRequest request) {
+        return new ResponseEntity<>(service.create(request), CREATED);
     }
 
     @PostMapping("/complete")

@@ -1,5 +1,6 @@
 package com.snzn.project.stock.service.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +31,16 @@ public class RestExceptionHandler {
         return new ResponseEntity<>("Record not found!", HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest request) {
+    @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
+    public ResponseEntity<Object> handleMethodArgumentNotValidException(Exception ex, WebRequest request) {
         log.error("Input validation failed!", ex);
         return new ResponseEntity<>("Input validation failed!", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({NotEnoughStockException.class})
+    public ResponseEntity<Object> handleNotEnoughStockException(Exception ex, WebRequest request) {
+        log.error("Not enough stock!", ex);
+        return new ResponseEntity<>("Not enough stock!", HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -11,21 +11,9 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EntryResponseModel {
+public class OrderEntryPriceModel {
 
-    private Long id;
-
-    private Integer quantity;
-
-    private String category;
-
-    private String definition;
-
-    private String brand;
-
-    private String model;
-
-    private String properties;
+    private Long entryId;
 
     private BigDecimal price;
 

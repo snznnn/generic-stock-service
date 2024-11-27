@@ -32,7 +32,6 @@ public class QuantityService {
         quantityRepository.save(quantity);
     }
 
-    // TODO make sure it wont go below zero with request
     public void remove(QuantityChangeRequest request) {
         Entry entryReference = entryRepository.getReferenceById(request.getEntryId());
 
@@ -51,10 +50,12 @@ public class QuantityService {
 
         Integer netQuantity = 0;
         for (Quantity quantity : quantityList) {
-            if (quantity.getDirection().equals(QuantityDirection.UP)) {
-                netQuantity += quantity.getQuantity();
-            } else {
-                netQuantity -= quantity.getQuantity();
+            if (!quantity.getStatus().equals(QuantityStatus.CANCELED)) {
+                if (quantity.getDirection().equals(QuantityDirection.UP)) {
+                    netQuantity += quantity.getQuantity();
+                } else {
+                    netQuantity -= quantity.getQuantity();
+                }
             }
         }
 

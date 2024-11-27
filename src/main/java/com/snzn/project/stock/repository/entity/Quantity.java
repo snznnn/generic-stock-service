@@ -29,4 +29,13 @@ public class Quantity extends BaseEntity {
     @Column(nullable = false)
     private QuantityStatus status;
 
+    private String orderNo;
+
+    public Quantity(Entry entry, Integer quantity, QuantityDirection direction, QuantityStatus status) {
+        this.entry = entry;
+        this.quantity = quantity;
+        this.direction = direction;
+        this.status = status;
+    }
+
 }

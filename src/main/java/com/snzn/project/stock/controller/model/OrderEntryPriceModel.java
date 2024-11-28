@@ -13,7 +13,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class OrderEntryPriceModel {
 
-    private Long entryId;
+    private String category;
+
+    private String definition;
+
+    private String brand;
+
+    private String model;
+
+    private Integer quantity;
 
     private BigDecimal price;
 

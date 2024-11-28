@@ -58,7 +58,9 @@ public class OrderService {
                     request.getOrderNo()
             );
             quantityList.add(quantity);
-            entryPriceList.add(new OrderEntryPriceModel(entry.getId(), entry.getPrice()));
+            entryPriceList.add(new OrderEntryPriceModel(
+                    entry.getCategory(), entry.getDefinition(), entry.getBrand(), entry.getModel(), entryQuantityModel.getQuantity(), entry.getPrice()
+            ));
         }
 
         quantityRepository.saveAll(quantityList);

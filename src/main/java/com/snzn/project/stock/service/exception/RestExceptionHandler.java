@@ -38,7 +38,7 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler({NotEnoughStockException.class})
-    public ResponseEntity<Object> handleNotEnoughStockException(Exception ex, WebRequest request) {
+    public ResponseEntity<Object> handleNotEnoughStockException(NotEnoughStockException ex, WebRequest request) {
         log.error("Not enough stock!", ex);
         return new ResponseEntity<>("Not enough stock!", HttpStatus.BAD_REQUEST);
     }

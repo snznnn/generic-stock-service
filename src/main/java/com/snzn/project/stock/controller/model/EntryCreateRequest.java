@@ -1,6 +1,8 @@
 package com.snzn.project.stock.controller.model;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -34,6 +36,8 @@ public class EntryCreateRequest {
     @NotEmpty
     private List<PropertyNameValueModel> propertyList;
 
+    @DecimalMax(value = "1000000.0", inclusive = false)
+    @DecimalMin(value = "1.0")
     @NotNull
     private BigDecimal price;
 

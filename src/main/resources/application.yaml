@@ -2,7 +2,7 @@ spring:
   application:
     name: generic-stock-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
     password: mypass
     username: postgres
     hikari:
